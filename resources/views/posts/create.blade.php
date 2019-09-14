@@ -33,14 +33,13 @@
 
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea name="description" id="description" cols="5" rows="5" class="form-control">
-                        {{ isset($post) ? $post->description: '' }}
+                    <textarea name="description" id="description" cols="5" rows="5" class="form-control">{{ isset($post) ? $post->description: '' }}
                     </textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="content">Content</label>
-                    <input id="content" type="hidden" name="content">
+                    <input id="content" type="hidden" name="content" value="{{ isset($post) ? $post->content: '' }}">
                     <trix-editor input="content"></trix-editor>
                 </div>
 
@@ -49,6 +48,10 @@
                     <input type="text" id="published_at" class="form-control" name="published_at"
                            value="{{ isset($post) ? $post->published_at: '' }}">
                 </div>
+
+                @if(isset($post))
+                    <img src="{{ asset("storage/{$post->image}") }}" alt="" style="width: 100%">
+                @endif
 
                 <div class="form-group">
                     <label for="image">Image</label>
@@ -70,7 +73,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-        flatpickr("#published_at",{
+        flatpickr("#published_at", {
             enableTime: true
         });
     </script>
