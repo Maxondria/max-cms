@@ -8,6 +8,8 @@ use App\Post;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+
 class PostsController extends Controller
 {
     /**
@@ -44,6 +46,7 @@ class PostsController extends Controller
             'description' => $request->description,
             'content' => $request->content,
             'image' => $image,
+            'published_at' => $request->published_at
         ]);
 
         session()->flash('success', 'POST CREATED SUCCESSFULLY');
@@ -87,14 +90,33 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param int $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        $post->delete();
+        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
 
-        session()->flash('success', 'POST TRASHED  SUCCESSFULLY');
+        if ($post->trashed()) {
+            Storage::delete($post->image);
+            $post->forceDelete();
+        } else {
+            $post->delete();
+        }
+
+        session()->flash('success', 'POST DELETED SUCCESSFULLY');
         return redirect(route('posts.index'));
+    }
+
+    /**
+     * Display trashed posts.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trashed()
+    {
+        $trashed = Post::withTrashed()->get();
+        return view('posts.index')->withPosts($trashed);
+        //withPosts() is same as with('posts', $trashed)
     }
 }
