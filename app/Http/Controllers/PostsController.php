@@ -8,6 +8,8 @@ use App\Http\Requests\Posts\UpdatePostsRequest;
 
 use App\Post;
 
+use App\Category;
+
 class PostsController extends Controller
 {
     /**
@@ -27,7 +29,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create')->withCategories(Category::all());
     }
 
     /**
@@ -38,8 +40,7 @@ class PostsController extends Controller
      */
     public function store(CreatePostsRequest $request)
     {
-        $data = $request->only(['title', 'description', 'content', 'published_at']);
-        //$data = $request->all(); all post data
+        $data = $request->all();
 
         $image = $request->image->store('posts');
 
@@ -70,7 +71,9 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->withPost($post);
+        return view('posts.create')
+            ->withPost($post)
+            ->withCategories(Category::all());
     }
 
     /**
@@ -82,7 +85,7 @@ class PostsController extends Controller
      */
     public function update(UpdatePostsRequest $request, Post $post)
     {
-        $data = $request->only(['title', 'description', 'content', 'published_at']);
+        $data = $request->only(['title', 'description', 'content', 'published_at','category_id']);
 
         if ($request->hasFile('image')) {
             $image = $request->image->store('posts');
