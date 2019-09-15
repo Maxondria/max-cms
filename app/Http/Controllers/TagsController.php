@@ -94,6 +94,13 @@ class TagsController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        $post_count = $tag->posts->count();
+
+        if ($post_count > 0) {
+            session()->flash('error', "TAG CANNOT BE DELETED BECAUSE IT'S ASSOCIATED WITH ($post_count) POSTS");
+            return redirect()->back();
+        }
+
         $tag->delete();
         session()->flash('success', 'TAG DELETED SUCCESSFULLY');
         return redirect(route('tags.index'));

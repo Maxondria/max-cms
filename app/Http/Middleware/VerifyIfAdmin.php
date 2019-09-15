@@ -2,10 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Category;
 use Closure;
 
-class VerifyCategoriesCount
+class VerifyIfAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,9 +15,9 @@ class VerifyCategoriesCount
      */
     public function handle($request, Closure $next)
     {
-        if (Category::all()->count() === 0) {
-            session()->flash('error', 'PLEASE CREATE A CATEGORY FIRST');
-            return redirect(route('categories.create'));
+        if (!auth()->user()->isAdmin()) {
+            session()->flash('error', 'YOU DO NOT HAVE RIGHTS TO THIS RESOURCE');
+            return redirect(route('home'));
         }
         return $next($request);
     }
