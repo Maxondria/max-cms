@@ -57,10 +57,10 @@
                         @foreach($categories as $category)
                             <option value="{{$category->id}}"
 
-                               @if(isset($post))
+                                    @if(isset($post))
                                     @if($category->id === $post->category_id)
                                     selected
-                                     @endif
+                                @endif
                                 @endif
                             >
                                 {{$category->name}}
@@ -70,6 +70,31 @@
                     </select>
                 </div>
 
+                @if($tags->count() > 0)
+
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <select name="tags[]" id="tags" class="form-control" multiple>
+
+                            @foreach($tags as $tag)
+                                <option value="{{$tag->id}}"
+
+                                    @if(isset($post))
+
+                                        @if($post->hasTag($tag->id))
+                                        selected
+                                        @endif
+
+                                    @endif
+
+                                >{{$tag->name}}
+                                </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                @endif
 
                 <div class="form-group">
                     <button type="submit"
