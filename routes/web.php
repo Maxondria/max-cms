@@ -29,4 +29,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('restore-post/{post}', 'PostsController@restore')->name('restore-post');
 
+    Route::resource('tags', 'TagsController');
+
 });
