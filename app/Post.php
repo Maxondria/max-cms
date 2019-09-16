@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['title', 'description', 'content', 'image', 'published_at', 'category_id', 'tags'];
+    protected $fillable = [
+        'title', 'description', 'content', 'image', 'published_at', 'category_id', 'tags', 'user_id'
+    ];
 
     /**
      * Helper method to delete image from storage if nolonger needed
@@ -31,6 +33,11 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

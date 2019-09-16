@@ -11,7 +11,11 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+use App\Http\Controllers\Blog\PostsController;
+
+Route::get('/', 'WelcomeController@index')->name('welcome');
+
+Route::get('blog/posts/{post}', [PostsController::class, 'show'])->name('blog.show');
 
 Auth::routes();
 
@@ -29,6 +33,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('tags', 'TagsController');
 
+    Route::get('users/profile', 'UsersController@edit')->name('users.edit-profile');
+
+    Route::put('users/profile', 'UsersController@update')->name('users.update-profile');
+
 });
 
 
@@ -38,7 +46,4 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::post('users/{user}/make-admin', 'UsersController@makeAdmin')->name('users.make-admin');
 
-    Route::get('users/profile', 'UsersController@edit')->name('users.edit-profile');
-
-    Route::put('users/profile', 'UsersController@update')->name('users.update-profile');
 });

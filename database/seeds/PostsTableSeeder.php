@@ -1,10 +1,11 @@
 <?php
 
 use App\Category;
-use App\Post;
 use App\Tag;
+use App\User;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class PostsTableSeeder extends Seeder
 {
@@ -30,8 +31,16 @@ class PostsTableSeeder extends Seeder
             ]);
         }
 
+        $author = User::create([
+            'name' => 'Muhemuryahebwa Ivoraymond',
+            'email' => 'ivoraymond@gmail.com',
+            'about' => 'The Black Smith\'s Son',
+            'role' => 'writer',
+            'password' => Hash::make('ivoraymond')
+        ]);
 
-        $post1 = Post::create([
+
+        $post1 = $author->posts()->create([
             'title' => 'We relocated our office to a new designed garage',
             'description' => 'The standard Lorem Ipsum passage',
             'content' => 'It used since the 1500s Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -41,7 +50,7 @@ class PostsTableSeeder extends Seeder
 
         $post1->tags()->attach([1, 2]);
 
-        $post2 = Post::create([
+        $post2 = $author->posts()->create([
             'title' => 'Top 5 brilliant content marketing strategies',
             'description' => 'The standard Lorem Ipsum passage 2',
             'content' => 'It used since the 1500s Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -52,7 +61,7 @@ class PostsTableSeeder extends Seeder
         $post2->tags()->attach([1, 2, 3]);
 
 
-        $post3 = Post::create([
+        $post3 = $author->posts()->create([
             'title' => 'Best practices for minimalist design with example',
             'description' => 'The standard Lorem Ipsum passage 3',
             'content' => 'It used since the 1500s Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -62,7 +71,7 @@ class PostsTableSeeder extends Seeder
 
         $post3->tags()->attach([1, 2, 5, 4]);
 
-        $post4 = Post::create([
+        $post4 = $author->posts()->create([
             'title' => 'Congratulate and thank to Maryam for joining our team',
             'description' => 'The standard Lorem Ipsum passage 4',
             'content' => 'It used since the 1500s Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -72,7 +81,7 @@ class PostsTableSeeder extends Seeder
 
         $post4->tags()->attach([2, 5, 6]);
 
-        $post5 = Post::create([
+        $post5 = $author->posts()->create([
             'title' => 'New published books to read by a product designer',
             'description' => 'The standard Lorem Ipsum passage 5',
             'content' => 'It used since the 1500s Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -82,7 +91,7 @@ class PostsTableSeeder extends Seeder
 
         $post5->tags()->attach([1, 2, 6]);
 
-        $post6 = Post::create([
+        $post6 = $author->posts()->create([
             'title' => 'This is why it\'s time to ditch dress codes at work',
             'description' => 'The standard Lorem Ipsum passage 6',
             'content' => 'It used since the 1500s Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -91,6 +100,5 @@ class PostsTableSeeder extends Seeder
         ]);
 
         $post6->tags()->attach([1, 2, 6, 3]);
-
     }
 }
