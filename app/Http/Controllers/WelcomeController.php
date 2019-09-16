@@ -6,14 +6,19 @@ use App\Category;
 use App\Post;
 use App\Tag;
 
-use Illuminate\Http\Request;
-
 class  WelcomeController extends Controller
 {
     public function index()
     {
+        $search = request()->query('search');
+        if ($search) {
+            $posts = Post::where('title', 'LIKE', "%{$search}%")->simplePaginate(4);
+        } else {
+            $posts = Post::simplePaginate(4);
+        }
+
         return view('welcome')
-            ->withPosts(Post::simplePaginate(2))
+            ->withPosts($posts)
             ->withCategories(Category::all())
             ->withTags(Tag::all());
     }
