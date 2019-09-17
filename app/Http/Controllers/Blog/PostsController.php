@@ -17,36 +17,13 @@ class PostsController extends Controller
     }
 
     /**
-     * @param $resource
-     * @param null $search
-     * @return mixed
-     */
-    private function getPosts($resource, $search = null)
-    {
-        if (!$search) {
-            $posts = $resource->posts()->simplePaginate(4);
-        } else {
-            $posts = $resource
-                ->posts()
-                ->where('title', 'LIKE', "%{$search}%")
-                ->simplePaginate(4);
-        }
-
-        return $posts;
-    }
-
-    /**
      * @param Category $category
      * @return mixed
      */
     public function category(Category $category)
     {
-        $search = request()->query('search');
-
-        $posts = $search ? $this->getPosts($category, $search) : $this->getPosts($category);
-
         return view('blog.category')
-            ->withPosts($posts)
+            ->withPosts($category->posts()->searched()->simplePaginate(4))
             ->withCategories(Category::all())
             ->withTags(Tag::all())
             ->withCategory($category);
@@ -58,12 +35,8 @@ class PostsController extends Controller
      */
     public function tag(Tag $tag)
     {
-        $search = request()->query('search');
-
-        $posts = $search ? $this->getPosts($tag, $search) : $this->getPosts($tag);
-
         return view('blog.tag')
-            ->withPosts($posts)
+            ->withPosts($tag->posts()->searched()->simplePaginate(4))
             ->withCategories(Category::all())
             ->withTags(Tag::all())
             ->withTag($tag);
