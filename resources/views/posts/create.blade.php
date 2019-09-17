@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="published_at">Published At</label>
+                    <label for="published_at">Publish On</label>
                     <input type="text" id="published_at" class="form-control" name="published_at"
                            value="{{ isset($post) ? $post->published_at: '' }}">
                 </div>
@@ -79,11 +79,11 @@
                             @foreach($tags as $tag)
                                 <option value="{{$tag->id}}"
 
-                                    @if(isset($post))
+                                        @if(isset($post))
 
                                         @if($post->hasTag($tag->id))
                                         selected
-                                        @endif
+                                    @endif
 
                                     @endif
 
@@ -112,10 +112,11 @@
 
     <script>
         flatpickr("#published_at", {
-            enableTime: true
+            enableTime: true,
+            enableSeconds: true
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.tags-selector').select2();
         });
     </script>
@@ -124,5 +125,5 @@
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css"/>
 @endsection()
