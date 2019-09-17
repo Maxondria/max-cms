@@ -13,6 +13,8 @@ class Post extends Model
         'title', 'description', 'content', 'image', 'published_at', 'category_id', 'tags', 'user_id'
     ];
 
+    protected $dates = ['published_at'];
+
     /**
      * Helper method to delete image from storage if nolonger needed
      * @return void
@@ -60,9 +62,14 @@ class Post extends Model
         $search = request()->query('search');
 
         if (!$search) {
-            return $query;
+            return $query->published();
         }
 
-        return $query->where('title', 'LIKE', "%{$search}%");
+        return $query->published()->where('title', 'LIKE', "%{$search}%");
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published_at', '<=', now());
     }
 }
